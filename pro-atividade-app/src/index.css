@@ -1,0 +1,40 @@
+@import url(../node_modules/@fortawesome/fontawesome-free/css/all.min.css);
+
+.caixa-form {
+    border: 1px solid rgb(127, 127, 127);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+}
+
+.carinha-green {
+    color: rgb(22, 169, 22) !important;
+}
+
+.carinha-yellow {
+    color: rgb(235, 227, 3) !important;
+}
+
+.carinha-red {
+    color: red !important;
+}
+
+.carinha-black {
+    color: black !important;
+}
+
+.borda-green {
+    border: 2px solid rgb(22, 169, 22) !important;
+}
+
+.borda-yellow {
+    border: 2px solid rgb(244, 236, 0) !important;
+}
+
+.borda-red {
+    border: 2px solid red !important;
+}
+
+.borda-black {
+    border: 2px solid black !important;
+}
