@@ -92,7 +92,7 @@ export default function AtividadeForm(props) {
             onChange={inputTextHandler}
             value={atividade.descricao}
           />
-        <hr className="mt-4"></hr>
+          <hr className="mt-4"></hr>
         </div>
         <div className="justify-content-center align-content-center d-flex mt-1">
           <div className="col-md-4 mt-0">
