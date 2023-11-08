@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
+using ProAtividade.API.Data;
 using ProAtividade.API.Models;
 
 namespace ProAtividade.API.Controllers
@@ -14,45 +15,137 @@ namespace ProAtividade.API.Controllers
     public class AtividadeController : ControllerBase
     {
 
-        public IEnumerable<Atividade> Atividades = new List<Atividade>(){
-                new Atividade(1),
-                new Atividade(2),
-                new Atividade(3)
-            };
+        private readonly DataContext _context;
+        public AtividadeController(DataContext context)
+        {
+            _context = context;
+        }
 
         [HttpGet]
-        public IEnumerable<Atividade> Get()
+        public IActionResult Get()
         {
-            return Atividades;
+            if (!_context.Atividades.Any())
+                return NotFound(new
+                {
+                    Status = "Erro",
+                    Descricao = "Não há atividades cadastradas"
+                });
+
+            return Ok(new
+            {
+                Status = "Sucesso",
+                Atividade = _context.Atividades
+            }
+                    );
         }
 
         [HttpGet("{id}")]
 
-        public Atividade Get(int id)
+        public IActionResult Get(int id)
         {
-            return Atividades.FirstOrDefault(atividade => atividade.Id == id);
+            if (!_context.Atividades.Any())
+                return NotFound(new
+                {
+                    Status = "Erro",
+                    Descricao = "Não há atividades cadastradas"
+                });
+
+            var atividade = _context.Atividades.FirstOrDefault(atividade => atividade.Id == id);
+
+            if (atividade == null)
+                return NotFound(new
+                {
+                    Status = "Erro",
+                    Descricao = "A atividade solicitada não existe"
+                });
+
+            return Ok(new
+            {
+                Status = "Sucesso",
+                Atividade = _context.Atividades.FirstOrDefault(atividade => atividade.Id == id)
+            }
+                    );
         }
+
 
         [HttpPost]
 
-        public IEnumerable<Atividade> Post(Atividade atividade)
+        public IActionResult Post(Atividade atividade)
         {
-            return Atividades.Append<Atividade>(atividade);
+            var AtividadesPost = _context.Atividades;
+
+            AtividadesPost.Add(atividade);
+            if (_context.SaveChanges() > 0)
+                return Ok(new
+                {
+                    Status = "Sucesso",
+                    atividades = _context.Atividades
+                });
+            else
+                return BadRequest(new
+                {
+                    Status = "Erro",
+                    Descricao = "Não foi possível salvar a atividade"
+                });
         }
+
 
         [HttpPut("{id}")]
 
-        public string Put(int id)
+        public IActionResult Put(int id, Atividade atividade)
         {
-            return "Meu primeiro metodo PUT com parametro " + id;
+            if (atividade.Id != id) return BadRequest(new
+            {
+                Status = "Erro",
+                Descricao = "Você está tentando atualizar a atividade errada"
+            });
+
+            _context.Update(atividade);
+            if (_context.SaveChanges() > 0)
+                return Ok(new
+                {
+                    Status = "Sucesso",
+                    Atividade = _context.Atividades.FirstOrDefault(ativ => ativ.Id == id)
+                }
+                    );
+            else
+                return NotFound(new
+                {
+                    Status = "Erro",
+                    Descricao = "Não foi possível atualizar a atividade"
+                });
         }
+
 
         [HttpDelete("{id}")]
 
-        public string Delete(int id)
+        public IActionResult Delete(int id)
         {
-            return "Meu primeiro metodo DELETE com parametro " + id;
+            var atividade = _context.Atividades.FirstOrDefault(atividade => atividade.Id == id);
+
+            if (atividade == null)
+                return NotFound(new
+                {
+                    Status = "Erro",
+                    Descricao = "Você está tentando deletar uma atividade que não existe"
+                });
+
+            _context.Remove(atividade);
+
+            if (_context.SaveChanges() > 0)
+                return Ok(new
+                {
+                    Status = "Sucesso",
+                    Descricao = "Atividade " + atividade.Id + " deletada com sucesso"
+                });
+            else
+                return BadRequest(new
+                {
+                    Status = "Erro",
+                    Descricao = "Não foi possível deletar a atividade " + atividade.Id
+                });
         }
+
 
     }
 }
