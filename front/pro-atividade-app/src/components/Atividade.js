@@ -3,11 +3,11 @@
 export default function Atividade(props) {
   function prioridadeLabel(prioridade) {
     switch (prioridade) {
-      case "1":
+      case "Baixa":
         return "Baixa";
-      case "2":
+      case "Normal":
         return "Média";
-      case "3":
+      case "Alta":
         return "Alta";
       default:
         return "Não definida";
@@ -15,11 +15,11 @@ export default function Atividade(props) {
   }
   function prioridadeIcon(prioridade) {
     switch (prioridade) {
-      case "1":
+      case "Baixa":
         return "smile";
-      case "2":
+      case "Normal":
         return "meh";
-      case "3":
+      case "Alta":
         return "frown";
       default:
         return "Não definida";
@@ -27,11 +27,11 @@ export default function Atividade(props) {
   }
   function prioridadeIconColor(prioridade) {
     switch (prioridade) {
-      case "1":
+      case "Baixa":
         return "carinha-green";
-      case "2":
+      case "Normal":
         return "carinha-yellow";
-      case "3":
+      case "Alta":
         return "carinha-red";
       default:
         return "carinha-black";
@@ -39,11 +39,11 @@ export default function Atividade(props) {
   }
   function prioridadeBorderColor(prioridade) {
     switch (prioridade) {
-      case "1":
+      case "Baixa":
         return "borda-green";
-      case "2":
+      case "Normal":
         return "borda-yellow";
-      case "3":
+      case "Alta":
         return "borda-red";
       default:
         return "borda-black";
@@ -94,7 +94,7 @@ export default function Atividade(props) {
           </button>
           <button
             className="btn btn-outline-danger btn-sm "
-            onClick={() => props.deletarAtividade(props.ativ.id)}
+            onClick={() => props.handleConfirmModal(props.ativ.id)}
           >
             <i className="fas fa-trash me-1"></i>
             Deletar

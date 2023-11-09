@@ -6,9 +6,9 @@ export default function AtividadeLista(props) {
       {props.atividades.map((ativ) => (
         <Atividade
           key={ativ.id}
-          deletarAtividade={props.deletarAtividade}
-          pegarAtividade={props.pegarAtividade}
           ativ={ativ}
+          handleConfirmModal={props.handleConfirmModal}
+          pegarAtividade={props.pegarAtividade}
         />
       ))}
     </div>

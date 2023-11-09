@@ -74,12 +74,13 @@ namespace ProAtividade.API.Controllers
         {
             var AtividadesPost = _context.Atividades;
 
+
             AtividadesPost.Add(atividade);
             if (_context.SaveChanges() > 0)
                 return Ok(new
                 {
                     Status = "Sucesso",
-                    atividades = _context.Atividades
+                    Atividade = atividade
                 });
             else
                 return BadRequest(new

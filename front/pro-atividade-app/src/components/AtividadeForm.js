@@ -34,8 +34,7 @@ export default function AtividadeForm(props) {
 
   function handleCancelar(e) {
     e.preventDefault();
-
-    setAtividade(atividadeInicial);
+    props.cancelarAtividade();
   }
 
   function handleSubmit(e) {
@@ -51,7 +50,6 @@ export default function AtividadeForm(props) {
 
   return (
     <>
-      <h1>{atividade.id !== 0 ? "Atividade " + atividade.id : "Atividades"}</h1>
       <form className="row g-3" onSubmit={handleSubmit}>
         <div className="col-md-6">
           <label className="form-label">Título</label>
@@ -75,10 +73,10 @@ export default function AtividadeForm(props) {
             onChange={inputTextHandler}
             value={atividade.prioridade}
           >
-            <option defaultValue="0">Prioridade</option>¶
-            <option value="1">Baixa</option>
-            <option value="2">Média</option>
-            <option value="3">Alta</option>
+            <option defaultValue="NaoDefinido">Prioridade</option>¶
+            <option value="Baixa">Baixa</option>
+            <option value="Normal">Média</option>
+            <option value="Alta">Alta</option>
           </select>
         </div>
         <div className="col-md-12">
@@ -91,16 +89,17 @@ export default function AtividadeForm(props) {
             name="descricao"
             onChange={inputTextHandler}
             value={atividade.descricao}
+            rows="4"
           />
           <hr className="mt-4"></hr>
         </div>
-        <div className="justify-content-center align-content-center d-flex mt-1">
-          <div className="col-md-4 mt-0">
+        <div className="justify-content-end align-content-end d-flex mt-1">
+          <div className="col-md-4 mt-0 d-flex justify-content-end">
             <div className="d-flex gap-1">
               {atividade.id === 0 ? (
                 <button
                   style={{ width: 100 + "%" }}
-                  className="btn btn-outline-secondary"
+                  className="btn btn-outline-success"
                   type="submit"
                 >
                   <i className="fas fa-plus me-1"></i>
@@ -109,7 +108,7 @@ export default function AtividadeForm(props) {
               ) : (
                 <>
                   <button
-                    style={{ width: 100 + "%" }}
+                    style={{ width: 86 + "px" }}
                     className="btn btn-outline-success"
                     type="submit"
                   >
@@ -117,7 +116,7 @@ export default function AtividadeForm(props) {
                     Salvar
                   </button>
                   <button
-                    style={{ width: 100 + "%" }}
+                    style={{ width: 105 + "px" }}
                     className="btn btn-outline-danger"
                     onClick={handleCancelar}
                   >
