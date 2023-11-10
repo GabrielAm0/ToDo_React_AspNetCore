@@ -463,3 +463,4 @@ $RECYCLE.BIN/
 .vscode/tasks.json
 .vscode/launch.json
 
+/qodana.yaml
