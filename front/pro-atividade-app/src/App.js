@@ -28,7 +28,7 @@ function App() {
 
   const pegaTodasAtividade = async () => {
     const response = await api.get("atividade");
-    return response.data.atividade;
+    return response.data;
   };
 
   useEffect(() => {
@@ -51,7 +51,7 @@ function App() {
     setAtividade({ id: 0 });
     try {
       const response = await api.post("atividade", ativ);
-      setAtividades([...atividades, response.data.atividade]);
+      setAtividades([...atividades, response.data]);
     } catch (error) {
       console.error("Erro ao adicionar atividade:", error);
     }
@@ -72,10 +72,10 @@ function App() {
   const atualizarAtividade = async (ativ) => {
     handleAtividadeModal();
     const response = await api.put(`atividade/${ativ.id}`, ativ);
-    const { id } = response.data.atividade;
+    const { id } = response.data;
     setAtividades(
       atividades.map((item) =>
-        item.id === id ? response.data.atividade : item
+        item.id === id ? response.data : item
       )
     );
     setAtividade({ id: 0 });
