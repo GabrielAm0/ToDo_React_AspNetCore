@@ -14,11 +14,11 @@ export default function Menu() {
                             <Nav.Link
                                 as={NavLink}
                                 to='/clientes/lista'
-                                activeClassName="active">Clientes</Nav.Link>
+                                className={(navData) => navData.isActive ? 'Active' : ''}>Clientes</Nav.Link>
                             <Nav.Link 
                                 as={NavLink} 
-                                to='/atividades/lista' 
-                                activeClassName="active">Atividades</Nav.Link>
+                                to='/atividades/lista'
+                                className={(navData) => navData.isActive ? 'Active' : ''}>Atividades</Nav.Link>
                         </Nav>
                         <Nav>
                             <NavDropdown align="end" title="Gabriel" id="basic-nav-dropdown">
