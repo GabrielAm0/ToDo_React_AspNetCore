@@ -1,11 +1,12 @@
 ﻿import React from 'react'
 import ClienteLista from "./ClienteLista";
-import ClienteForm from "./ClienteForm";
 
-export default function Cliente() {
+ const Cliente: React.FC = () =>{
     return (
         <>
             <ClienteLista/>
         </>
     )
 }
+
+export default Cliente;

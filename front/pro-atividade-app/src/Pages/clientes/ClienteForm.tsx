@@ -1,16 +1,16 @@
 ﻿import React from 'react'
 import {Button} from "react-bootstrap";
 import TitlePage from "../../components/TitlePage";
-import {useHistory, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
-export default function ClienteForm() {
+const ClienteForm: React.FC = () =>{
 
-    const history = useHistory();
+    const navigate = useNavigate();
     
     let { id } = useParams();
     
     const voltarPag = () => {
-        history.push("/clientes/lista");
+        navigate("/clientes/lista");
     }
     
     return (
@@ -22,3 +22,5 @@ export default function ClienteForm() {
         </TitlePage>    
     )
 }
+
+export default  ClienteForm;

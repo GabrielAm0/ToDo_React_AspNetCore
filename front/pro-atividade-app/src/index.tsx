@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
@@ -8,15 +8,13 @@ import 'bootswatch/dist/cosmo/bootstrap.min.css';
 import {BrowserRouter as Router} from "react-router-dom";
 
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-
-root.render(
+ReactDOM.render(
     <Router>
-      <Menu/>
+        <Menu/>
         <div className="container mt-3">
             <App/>
         </div>
-    </Router>
-    ,
+    </Router>,
+    document.getElementById('root')
 );
 

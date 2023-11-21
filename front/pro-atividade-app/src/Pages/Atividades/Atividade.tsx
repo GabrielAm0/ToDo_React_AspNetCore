@@ -1,30 +1,41 @@
-﻿import { useState, useEffect  } from "react";
-import { Button, Modal } from "react-bootstrap";
+﻿import {useState, useEffect} from "react";
+import {Button, Modal} from "react-bootstrap";
 import AtividadeForm from "./AtividadeForm";
 import AtividadeLista from "./AtividadeLista";
 import api from "../../api/atividade";
 import TitlePage from "../../components/TitlePage";
+import {IAtividade, Prioridade} from "../../model/atividade";
 
+const atividadeInicial: IAtividade = {
+    id: 0,
+    titulo: "",
+    prioridade: Prioridade.NaoDefinido,
+    descricao: "",
+};
 
-export default function Atividade() {
+const Atividade = () => {
     const [ShowAtividadeModal, setShowAtividadeModal] = useState(false);
     const [smConfirmModal, setSmConfirmModal] = useState(false);
 
-    const [atividades, setAtividades] = useState([]);
-    const [atividade, setAtividade] = useState({ id: 0 });
+    const [atividades, setAtividades] = useState<IAtividade[]>([]);
+    const [atividade, setAtividade] = useState<IAtividade>(atividadeInicial);
 
     const handleAtividadeModal = () => {
         setShowAtividadeModal(!ShowAtividadeModal);
     };
 
-    const handleConfirmModal = (id) => {
+    const handleConfirmModal = (id: number) => {
         if (id !== 0 && id !== undefined) {
             const atividade = atividades.filter((ativ) => ativ.id === id);
             setAtividade(atividade[0]);
         } else {
-            setAtividade({ id: 0 });
+            setAtividade(atividadeInicial);
         }
         setSmConfirmModal(!smConfirmModal);
+    };
+
+    const handleCloseConfirmModal = () => {
+        handleConfirmModal(0);
     };
 
     const pegaTodasAtividade = async () => {
@@ -44,12 +55,12 @@ export default function Atividade() {
 
     const novaAtividade = () => {
         handleAtividadeModal();
-        setAtividade({ id: 0 });
+        setAtividade(atividadeInicial);
     };
 
-    const addAtividade = async (ativ) => {
+    const addAtividade = async (ativ: IAtividade) => {
         handleAtividadeModal();
-        setAtividade({ id: 0 });
+        setAtividade(atividadeInicial);
         try {
             const response = await api.post("atividade", ativ);
             setAtividades([...atividades, response.data]);
@@ -58,7 +69,7 @@ export default function Atividade() {
         }
     };
 
-    const deletarAtividade = async (id) => {
+    const deletarAtividade = async (id: number) => {
         handleConfirmModal(0);
         try {
             if (await api.delete(`atividade/${id}`)) {
@@ -70,28 +81,28 @@ export default function Atividade() {
         }
     };
 
-    const atualizarAtividade = async (ativ) => {
+    const atualizarAtividade = async (ativ: IAtividade) => {
         handleAtividadeModal();
         const response = await api.put(`atividade/${ativ.id}`, ativ);
-        const { id } = response.data;
+        const {id} = response.data;
         setAtividades(
-            atividades.map((item) =>
-                item.id === id ? response.data : item
-            )
+            atividades.map((item) => item.id === id ? response.data : item)
         );
-        setAtividade({ id: 0 });
+        setAtividade(atividadeInicial);
     };
 
-    function cancelarAtividade() {
+    const cancelarAtividade = () => {
+        setAtividade(atividadeInicial);
         handleAtividadeModal();
-        setAtividade({ id: 0 });
-    }
+    };
 
-    function pegarAtividade(id) {
+
+    const pegarAtividade = (id: number) => {
+        const atividade = atividades.filter((atividade) => atividade.id === id);
+        setAtividade(atividade[0]);
         handleAtividadeModal();
-        const atividade = atividades.find((ativ) => ativ.id === id);
-        setAtividade(atividade);
-    }
+    };
+
 
     return (
         <>
@@ -116,16 +127,14 @@ export default function Atividade() {
                         atividadeSelecionada={atividade}
                         atualizarAtividade={atualizarAtividade}
                         cancelarAtividade={cancelarAtividade}
-                        atividades={atividades}
-                        fecharModal={handleAtividadeModal}
                     />
                 </Modal.Body>
             </Modal>
 
             {/* Modal para deletar a atividade*/}
 
-            <Modal size="md" show={smConfirmModal} onHide={handleConfirmModal}>
-                <Modal.Header closeButton onHide={handleConfirmModal}>
+            <Modal show={smConfirmModal} onHide={handleCloseConfirmModal}>
+                <Modal.Header closeButton>
                     <Modal.Title>
                         Excluir{" "}
                         {atividade.id !== 0 ? "Atividade " + atividade.id : "Atividade"}
@@ -161,4 +170,4 @@ export default function Atividade() {
     );
 }
 
-
+export default Atividade;
