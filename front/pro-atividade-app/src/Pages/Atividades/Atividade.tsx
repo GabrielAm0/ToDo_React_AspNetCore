@@ -14,14 +14,14 @@ const atividadeInicial: IAtividade = {
 };
 
 const Atividade = () => {
-    const [ShowAtividadeModal, setShowAtividadeModal] = useState(false);
+    const [showAtividadeModal, setShowAtividadeModal] = useState(false);
     const [smConfirmModal, setSmConfirmModal] = useState(false);
 
     const [atividades, setAtividades] = useState<IAtividade[]>([]);
     const [atividade, setAtividade] = useState<IAtividade>(atividadeInicial);
 
     const handleAtividadeModal = () => {
-        setShowAtividadeModal(!ShowAtividadeModal);
+        setShowAtividadeModal(!showAtividadeModal);
     };
 
     const handleConfirmModal = (id: number) => {
@@ -114,9 +114,8 @@ const Atividade = () => {
                     <i className="fas fa-plus me-1"></i> Adicionar
                 </Button>
             </TitlePage>
-
-            <Modal show={ShowAtividadeModal} onHide={handleAtividadeModal}>
-                <Modal.Header closeButton onHide={handleAtividadeModal}>
+            <Modal show={showAtividadeModal} onHide={handleAtividadeModal}>
+                <Modal.Header closeButton>
                     <Modal.Title>
                         {atividade.id !== 0 ? "Atividade " + atividade.id : "Atividade"}
                     </Modal.Title>
